@@ -5,7 +5,7 @@ public class FunAppExpr extends Expr {
     public AtomExpr[] args;
     public int arity;
     public FunAppExpr(Expr g, AtomExpr[] as, int n){
-	assert as.length == n;
+	assert n < 0 || as.length == n;
 	f = g;
 	args = as;
 	arity = n;
