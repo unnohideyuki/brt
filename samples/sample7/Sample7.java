@@ -13,7 +13,7 @@ public class Sample7 {
     public static void main(String[] args){
 	String[] ns = {"Main.l1.f", "Main.l1.e"};
 	Expr f = RTLib.putStrLn;
-	Expr e = RTLib.app(new FVar("Main.l1.f"),
+	Expr e = RTLib.app(new AtomExpr(new FVar("Main.l1.f")),
 			   RTLib.fromJString("Hello, Free Variable!"));
 	Expr[] es = {f, e};
 	Expr expr = new LetExpr(ns, es, Codes.body);

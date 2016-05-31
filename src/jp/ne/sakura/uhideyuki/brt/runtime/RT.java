@@ -33,9 +33,9 @@ class EvalApply {
     }
 
     public Boolean runStep(){
-	if (code instanceof FVar){
-	    FVar fv = (FVar) code;
-	    code = h.get(fv.name);
+	if (code.isFVar()){
+	    code = h.get(code.getName());
+	    assert code != null;
 	} if (code instanceof LetExpr){
 	    evalLet();
 	} else if (code instanceof CaseExpr){
@@ -54,7 +54,7 @@ class EvalApply {
 	    Expr f = ((FunAppExpr)code).f;
 	    if (f.isFunObj()){
 		evalFun(); // EXACT, CALLK or PAP2
-	    } else if (f.isThunk() || f instanceof FVar){
+	    } else if (f.isThunk() || f.isFVar()){
 		evalTCall();
 	    } else {
 		assert f.isPapObj();
