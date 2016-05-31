@@ -10,8 +10,9 @@ import jp.ne.sakura.uhideyuki.brt.runtime.*;
  */
 public class Sample2 {
     public static void main(String[] args){
+	String[] ns = {"Main.l1.s"};
 	Expr[] es = {RTLib.fromJString("Hello, Let Expression!")};
-	Expr e = new LetExpr(es, Codes.body);
+	Expr e = new LetExpr(ns, es, Codes.body);
 	RT.eval(e);
     }
 }

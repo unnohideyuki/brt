@@ -4,13 +4,16 @@ import jp.ne.sakura.uhideyuki.brt.brtsyn.*;
 
 import java.util.Stack;
 import java.util.Arrays;
+import java.util.HashMap;
 
 class EvalApply {
     private Stack<Cont> s;
     private Expr code;
+    private HashMap<String, Expr> h;
 
     public EvalApply(){
 	s = new Stack<Cont>();
+	h = new HashMap<String, Expr>();
     }
 
     public Expr eval(Expr e){
@@ -30,7 +33,10 @@ class EvalApply {
     }
 
     public Boolean runStep(){
-	if (code instanceof LetExpr){
+	if (code instanceof FVar){
+	    FVar fv = (FVar) code;
+	    code = h.get(fv.name);
+	} if (code instanceof LetExpr){
 	    evalLet();
 	} else if (code instanceof CaseExpr){
 	    evalCase(); // CASECON, CASEANY or CASE
@@ -48,7 +54,7 @@ class EvalApply {
 	    Expr f = ((FunAppExpr)code).f;
 	    if (f.isFunObj()){
 		evalFun(); // EXACT, CALLK or PAP2
-	    } else if (f.isThunk()){
+	    } else if (f.isThunk() || f instanceof FVar){
 		evalTCall();
 	    } else {
 		assert f.isPapObj();
@@ -76,6 +82,7 @@ class EvalApply {
 
 	for (int i = 0; i < e.es.length; i++){
 	    args[i] = (AtomExpr) mkVarExpr(new Thunk(e.es[i]));
+	    h.put(e.names[i], args[i]);
 	}
 
 	code = e.lambda.call(args);
