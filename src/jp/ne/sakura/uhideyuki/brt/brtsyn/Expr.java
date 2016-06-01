@@ -7,12 +7,6 @@ public abstract class Expr {
 	return r;
     }
 
-    public Boolean isFVar(){
-	Boolean r = (this instanceof AtomExpr) && 
-	    (((AtomExpr)this).a instanceof FVar);
-	return r;
-    }
-
     public Boolean isLiteral(){
 	Boolean r = ((this instanceof AtomExpr) &&
 		     (((AtomExpr)this).a instanceof Literal));
@@ -37,11 +31,6 @@ public abstract class Expr {
     public HeapObj getObj(){
 	assert this.isVar();
 	return ((Var)((AtomExpr)this).a).obj;
-    }
-
-    public String getName(){
-	assert this.isFVar();
-	return ((FVar)((AtomExpr)this).a).name;
     }
 
     public Boolean isThunk(){
